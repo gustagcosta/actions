@@ -9,12 +9,7 @@ const app = express();
 app.use(json());
 
 app.get('/', async (req, res, next) => {
-  try {
-    const result = await db('test');
-    res.json(result);
-  } catch (e) {
-    next(e);
-  }
+  res.json({version: '1.0.0'})
 });
 
 const errorHandler = (err, req, res, next) => {
