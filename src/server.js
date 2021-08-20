@@ -1,6 +1,9 @@
 import { config } from 'dotenv';
-import express, { json } from 'express';
 config();
+
+import express, { json } from 'express';
+
+import userRoutes from './api/users.js';
 
 const app = express();
 
@@ -10,7 +13,6 @@ app.get('/', async (req, res, next) => {
   res.json({ version: '1.0.0' });
 });
 
-import userRoutes from './api/users.js';
 
 app.use('/api/users', userRoutes);
 

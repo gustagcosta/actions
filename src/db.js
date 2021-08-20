@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 config();
+
 import knex from 'knex';
 
 const development = {
