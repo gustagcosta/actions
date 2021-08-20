@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 
 import db from './db.js';
 
-const auth = asyncHandler(async (req, res, next) => {
+export const auth = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
@@ -38,5 +38,3 @@ const auth = asyncHandler(async (req, res, next) => {
     throw new Error('Not authorized, no token');
   }
 });
-
-export { auth };
