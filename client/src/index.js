@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './bootstrap.min.css';
+import './index.css';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Home from './pages/Home';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Route path='/login' component={Login} />
+      <Route path='/register' component={Register} />
+      <Route path='/' component={Home} exact />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
