@@ -1,19 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import { storeToken, storeUser } from '../services/storage';
 
-function Login() {
+function Login({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState('');
+  const [loading] = useState('');
 
-  const submitHandle = (e) => {
+  const submitHandle = async (e) => {
     e.preventDefault();
-    console.log('salve');
+
+    try {
+      const response = await fetch(`/api/users/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (response.status === 200) {
+        const data = await response.json();
+        clearState();
+        storeToken(data.token);
+        const user = data;
+        delete data.token;
+        storeUser(user);
+        history.push('/');
+      } else if (response.status === 404) {
+        throw new Error('Usuário não encontrado!');
+      } else {
+        throw new Error('Erro ao logar!');
+      }
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const clearState = () => {
+    setEmail('');
+    setPassword('');
   };
 
   return (

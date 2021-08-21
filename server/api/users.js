@@ -41,7 +41,7 @@ router.post(
       .first();
 
     if (user) {
-      res.status(403);
+      res.status(409);
       throw new Error('User with this email already registered');
     }
 

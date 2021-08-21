@@ -10,7 +10,7 @@ const app = express();
 
 app.use(json());
 
-app.get('/', async (req, res) => {
+app.get('/api', async (req, res) => {
   res.json({ version: '1.0.0' });
 });
 

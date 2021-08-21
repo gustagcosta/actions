@@ -1,30 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import { storeToken, storeUser } from '../services/storage';
 
-function Register() {
+function Register({ history }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState('');
+  const [loading] = useState('');
 
-  const submitHandle = (e) => {
+  const submitHandle = async (e) => {
     e.preventDefault();
 
-    console.log('salve');
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+      if (response.status === 200) {
+        const data = await response.json();
+        setMessage('Registrado com sucesso!');
+        clearState();
+        storeToken(data.token);
+        const user = data;
+        delete data.token;
+        storeUser(user);
+        history.push('/');
+      } else if (response.status === 409) {
+        throw new Error('Usuário já cadastrado!');
+      } else {
+        throw new Error('Erro ao se registrar!');
+      }
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  const clearState = () => {
+    setError('');
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
   };
 
   return (
     <FormContainer>
       <h1 className='mt-4'>Registrar</h1>
-      {error && <Message variant='danger'>{error}</Message>}
-      {message && <Message variant='danger'>{message}</Message>}
+
       {loading && <Loader />}
       <Form onSubmit={submitHandle}>
         <Form.Group controlId={'name'}>
@@ -72,6 +109,8 @@ function Register() {
           Já é um usuário? <Link to={'/login'}>Entre</Link>
         </Col>
       </Row>
+      {error && <Message variant='danger'>{error}</Message>}
+      {message && <Message variant='info'>{message}</Message>}
     </FormContainer>
   );
 }

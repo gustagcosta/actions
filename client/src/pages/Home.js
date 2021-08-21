@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { getToken, getUser, isAuthenticated } from '../services/storage';
 
-function Home() {
+function Home({ history }) {
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      history.push('/login');
+    }
+  }, []);
+
   return (
     <>
       <Header />

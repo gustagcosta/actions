@@ -12,10 +12,10 @@ CREATE TABLE `actions`.`users`
 
 ALTER TABLE users ADD CONSTRAINT email_unique UNIQUE (email);
 
-INSERT INTO `users`(`name`, `email`, `password`, `role`) 
-VALUES (
-  'admin',
-  'admin@admin.com',
-  '$2a$10$XIhA7AjYILsEQXlINS3cueDKEJyeyOe2ZZ8GGlYJNkF3tgiJpwKpG',
-  'admin'
-);
+INSERT INTO `users`(`name`, `email`, `password`, `role`) VALUES 
+  (
+    'admin',
+    'admin@admin.com',
+    '$2a$10$XIhA7AjYILsEQXlINS3cueDKEJyeyOe2ZZ8GGlYJNkF3tgiJpwKpG',
+    'admin'
+  );
