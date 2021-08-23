@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import { getToken, getUser, isAuthenticated } from '../services/storage';
+import { isAuthenticated } from '../services/storage';
 
 function Home({ history }) {
   useEffect(() => {
     if (!isAuthenticated()) {
       history.push('/login');
     }
-  }, []);
+  }, [history]);
 
   return (
     <>

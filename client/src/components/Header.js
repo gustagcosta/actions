@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { clearStorage, getUser, isAuthenticated } from '../services/storage';
@@ -6,6 +6,12 @@ import { useHistory } from 'react-router-dom';
 
 const Header = () => {
   const history = useHistory();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      history.push('/login');
+    }
+  }, [history]);
 
   const logoutHandler = () => {
     clearStorage();
@@ -22,10 +28,15 @@ const Header = () => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <NavDropdown
-                title={isAuthenticated() ? getUser().name : 'Não autenticado'}
-                id='username'
-              >
+              {getUser().role === 'admin' && (
+                <LinkContainer to='/users'>
+                  <Nav.Link>
+                    <i className='fas fa-user'></i>
+                    &nbsp;Users
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              <NavDropdown title={getUser().name} id='username'>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Sair
                 </NavDropdown.Item>

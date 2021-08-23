@@ -61,7 +61,6 @@ function Register({ history }) {
   return (
     <FormContainer>
       <h1 className='mt-4'>Registrar</h1>
-
       {loading && <Loader />}
       <Form onSubmit={submitHandle}>
         <Form.Group controlId={'name'}>
