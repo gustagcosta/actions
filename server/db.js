@@ -15,8 +15,12 @@ const development = {
 
 const production = {
   client: 'pg',
-  connection: process.env.DB_STRING_PG,
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  },
 };
+console.log(process.env.ENV === 'development');
 
 export default knex(
   process.env.ENV === 'development' ? development : production
