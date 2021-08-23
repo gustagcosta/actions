@@ -12,6 +12,8 @@ const app = express();
 app.use(json());
 app.use(authentication);
 
+app.use('/api/users', userRoutes);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(path.resolve(), '/client/build')));
 
@@ -23,8 +25,6 @@ if (process.env.NODE_ENV === 'production') {
     res.json({ version: '1.0.0' });
   });
 }
-
-app.use('/api/users', userRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`It's alive! http://localhost:${process.env.PORT}`);
