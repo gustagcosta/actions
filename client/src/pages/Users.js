@@ -12,7 +12,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getToken, getUser, isAuthenticated } from '../services/storage';
+import { getToken, getUser } from '../services/storage';
 
 function Users({ history }) {
   const [error, setError] = useState('');
@@ -28,9 +28,6 @@ function Users({ history }) {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!isAuthenticated()) {
-      history.push('/login');
-    }
     if (getUser().role !== 'admin') {
       history.push('/');
     }

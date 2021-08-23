@@ -4,7 +4,7 @@ config();
 import express, { json } from 'express';
 
 import userRoutes from './api/users.js';
-import { authentication, errorHandler } from './middleware.js';
+import { authentication } from './middleware.js';
 
 const app = express();
 
@@ -16,8 +16,6 @@ app.get('/api', async (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
-
-app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
   console.log(`It's alive! http://localhost:${process.env.PORT}`);

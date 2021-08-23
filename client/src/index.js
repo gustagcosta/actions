@@ -1,23 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
 import './bootstrap.min.css';
 import './index.css';
+import { isAuthenticated } from './services/storage';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import Users from './pages/Users';
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{ pathname: '/login', state: { from: props.location } }}
+        />
+      )
+    }
+  />
+);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Route path='/login' component={Login} />
       <Route path='/register' component={Register} />
-      <Route path='/' component={Home} exact />
-      <Route path='/users' component={Users} exact />
+      <PrivateRoute path='/' component={Home} exact />
+      <PrivateRoute path='/users' component={Users} exact />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
