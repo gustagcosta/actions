@@ -2,6 +2,7 @@ import { config } from 'dotenv';
 config();
 
 import express, { json } from 'express';
+import path from 'path';
 
 import userRoutes from './api/users.js';
 import { authentication } from './middleware.js';
@@ -11,9 +12,17 @@ const app = express();
 app.use(json());
 app.use(authentication);
 
-app.get('/api', async (req, res) => {
-  res.json({ version: '1.0.0' });
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(path.resolve(), '/frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  );
+} else {
+  app.get('/api', async (req, res) => {
+    res.json({ version: '1.0.0' });
+  });
+}
 
 app.use('/api/users', userRoutes);
 
