@@ -48,19 +48,23 @@ function Users({ history }) {
       });
       if (response.status === 200) {
         const data = await response.json();
-        const users = data.filter(
-          (user) =>
-            user.name.toUpperCase().indexOf(query.toUpperCase()) > -1 ||
-            user.email.toUpperCase().indexOf(query.toUpperCase()) > -1
-        );
-        setUsers(users);
+        filterUsers(data);
         setLoading(false);
       } else {
-        setError('Erro ao carregar informações!');
+        throw new Error('Erro ao carregar informações!');
       }
     } catch (e) {
       setError(e.message);
     }
+  };
+
+  const filterUsers = (data) => {
+    const users = data.filter(
+      (user) =>
+        user.name.toUpperCase().indexOf(query.toUpperCase()) > -1 ||
+        user.email.toUpperCase().indexOf(query.toUpperCase()) > -1
+    );
+    setUsers(users);
   };
 
   const delUser = async () => {
@@ -74,10 +78,8 @@ function Users({ history }) {
         },
       });
       if (response.status === 200) {
-        setId('');
         setMessage('Usuário deletado com sucesso!');
-        setDel(false);
-        setLoading(false);
+        clearState();
         loadUsers();
       } else {
         throw new Error('Erro ao atualizar dados!');
@@ -99,20 +101,25 @@ function Users({ history }) {
         body: JSON.stringify({ name, email, id, role }),
       });
       if (response.status === 200) {
-        setName('');
-        setEmail('');
-        setRole('');
-        setId('');
-        setMessage('Usuário atualizado com sucesso!');
-        setEdit(false);
-        setLoading(false);
+        clearState();
         loadUsers();
+        setMessage('Usuário atualizado com sucesso!');
       } else {
         throw new Error('Erro ao atualizar dados!');
       }
     } catch (e) {
       setError(e.message);
     }
+  };
+
+  const clearState = () => {
+    setName('');
+    setEmail('');
+    setRole('');
+    setId('');
+    setEdit(false);
+    setDel(false);
+    setLoading(false);
   };
 
   const prepareEdit = (user) => {
