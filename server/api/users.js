@@ -124,7 +124,7 @@ router.get('/', authorization('admin'), async (req, res) => {
     res.send(await db('users'));
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: 'Load users failed' });
+    res.status(500).json({ message: e.message });
   }
 });
 
@@ -156,7 +156,7 @@ router.put('/', authorization('admin'), async (req, res) => {
     res.json({ message: 'User updated' });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: 'Error updating user' });
+    res.status(500).json({ message: e.message });
   }
 });
 
@@ -169,7 +169,7 @@ router.delete('/:id', authorization('admin'), async (req, res) => {
     res.json({ message: 'User deleted' });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ message: 'Error updating user' });
+    res.status(500).json({ message: e.message });
   }
 });
 

@@ -51,6 +51,7 @@ function Users({ history }) {
         throw new Error('Erro ao carregar informações!');
       }
     } catch (e) {
+      console.log(e);
       setError(e.message);
     }
   };
@@ -82,6 +83,7 @@ function Users({ history }) {
         throw new Error('Erro ao atualizar dados!');
       }
     } catch (e) {
+      console.log(e);
       setError(e.message);
     }
   };
@@ -105,6 +107,7 @@ function Users({ history }) {
         throw new Error('Erro ao atualizar dados!');
       }
     } catch (e) {
+      console.log(e);
       setError(e.message);
     }
   };
