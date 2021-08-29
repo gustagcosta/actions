@@ -1,0 +1,5 @@
+- [ ]  Tasks backend
+- [ ]  Tasks frontend manager
+- [ ]  Tasks frontend common user
+- [ ]  Leave the readme in english
+- [ ]  Report

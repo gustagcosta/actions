@@ -1,7 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 
-import db from '../db.js';
 import { validateEmail, generateToken, verifyPassword } from '../utils.js';
 import { authorization } from '../middleware.js';
 
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordCrypt = await bcrypt.hash(password, salt);
 
-    const user = await db
+    const user = await req.db
       .select('*')
       .from('users')
       .where('email', '=', email)
@@ -43,7 +42,7 @@ router.post('/', async (req, res) => {
         .json({ message: 'User with this email already registered' });
     }
 
-    const result = await db('users').insert({
+    const result = await req.db('users').insert({
       name,
       email,
       password: passwordCrypt,
@@ -76,7 +75,7 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    const user = await db
+    const user = await req.db
       .select('*')
       .from('users')
       .where('email', '=', email)
@@ -121,7 +120,7 @@ router.get(
 // @access    Admin
 router.get('/', authorization('admin'), async (req, res) => {
   try {
-    res.send(await db('users'));
+    res.send(await req.db('users'));
   } catch (e) {
     console.error(e);
     res.status(500).json({ message: e.message });
@@ -147,7 +146,7 @@ router.put('/', authorization('admin'), async (req, res) => {
   }
 
   try {
-    await db('users').where('id', '=', id).update({
+    await req.db('users').where('id', '=', id).update({
       name,
       email,
       role,
@@ -165,7 +164,7 @@ router.put('/', authorization('admin'), async (req, res) => {
 // @access    Admin
 router.delete('/:id', authorization('admin'), async (req, res) => {
   try {
-    await db('users').where('id', '=', req.params.id).delete();
+    await req.db('users').where('id', '=', req.params.id).delete();
     res.json({ message: 'User deleted' });
   } catch (e) {
     console.error(e);
