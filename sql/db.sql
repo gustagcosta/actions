@@ -1,20 +1,19 @@
--- Mysql
-
+-- MYSQL
 CREATE DATABASE actions CHARACTER SET UTF8;
 
-CREATE TABLE actions.users 
-  ( 
-    id INT NOT NULL AUTO_INCREMENT , 
-    name VARCHAR(255) NOT NULL , 
-    email VARCHAR(255) NOT NULL , 
-    password VARCHAR(255) NOT NULL , 
-    role VARCHAR(255) NOT NULL , 
+CREATE TABLE actions.users
+  (
+    id INT NOT NULL AUTO_INCREMENT ,
+    name VARCHAR(255) NOT NULL ,
+    email VARCHAR(255) NOT NULL ,
+    password VARCHAR(255) NOT NULL ,
+    role VARCHAR(255) NOT NULL ,
       PRIMARY KEY (id)
   ) ENGINE = InnoDB;
 
-ALTER TABLE users ADD CONSTRAINT email_unique UNIQUE (email);
+ALTER TABLE actions.users ADD CONSTRAINT email_unique UNIQUE (email);
 
-INSERT INTO users(name, email, password, role) VALUES 
+INSERT INTO actions.users(name, email, password, role) VALUES
   (
     'admin',
     'admin@admin.com',
@@ -22,7 +21,7 @@ INSERT INTO users(name, email, password, role) VALUES
     'admin'
   );
 
-CREATE TABLE tasks (
+CREATE TABLE actions.tasks (
   id int NOT NULL,
   description varchar(255) NOT NULL,
   deadline date NOT NULL,
@@ -30,25 +29,26 @@ CREATE TABLE tasks (
   id_target int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-ALTER TABLE tasks
+ALTER TABLE actions.tasks
   ADD PRIMARY KEY (id),
   ADD KEY id_manager (id_manager),
   ADD KEY id_target (id_target);
 
-ALTER TABLE tasks
+ALTER TABLE actions.tasks
   MODIFY id int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
-ALTER TABLE tasks
-  ADD CONSTRAINT tasks_ibfk_1 
-  FOREIGN KEY (id_manager) 
-  REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT tasks_ibfk_2 
-  FOREIGN KEY (id_target) 
-  REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE actions.tasks
+  ADD CONSTRAINT tasks_ibfk_1
+  FOREIGN KEY (id_manager)
+  REFERENCES actions.users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT tasks_ibfk_2
+  FOREIGN KEY (id_target)
+  REFERENCES actions.users (id) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
--- Postgresql
+ALTER TABLE actions.tasks ADD COLUMN status varchar(255) not null default 'WIP';
 
+-- POSTGRESQL
 CREATE TABLE public.users
 (
     id       SERIAL,
