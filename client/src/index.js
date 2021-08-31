@@ -7,10 +7,10 @@ import './bootstrap.min.css';
 import './index.css';
 import { isAuthenticated } from './services/storage';
 
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Home from './pages/Home';
-import Users from './pages/Users';
+import LoginScreen from './pages/LoginScreen';
+import RegisterScreen from './pages/RegisterScreen';
+import HomeScreen from './pages/HomeScreen';
+import UsersScreen from './pages/UsersScreen';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -30,10 +30,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Route path='/login' component={Login} />
-      <Route path='/register' component={Register} />
-      <PrivateRoute path='/' component={Home} exact />
-      <PrivateRoute path='/users' component={Users} exact />
+      <Route path='/login' component={LoginScreen} />
+      <Route path='/register' component={RegisterScreen} />
+      <PrivateRoute path='/' component={HomeScreen} exact />
+      <PrivateRoute path='/users' component={UsersScreen} exact />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

@@ -140,7 +140,7 @@ function Users({ history }) {
       <Header />
       <Container>
         <main className='py-3'>
-          <h1>Users</h1>
+          <h2>Usuários</h2>
           {error && <Message variant='danger'>{error}</Message>}
           {message && <Message variant='info'>{message}</Message>}
           <Row className='py-2'>

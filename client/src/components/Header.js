@@ -31,12 +31,18 @@ const Header = () => {
               {getUser().role === 'admin' && (
                 <LinkContainer to='/users'>
                   <Nav.Link>
-                    <i className='fas fa-user'></i>
-                    &nbsp;Users
+                    <i className='fas fa-users'></i>
+                    &nbsp;&nbsp;Usuários
                   </Nav.Link>
                 </LinkContainer>
               )}
-              <NavDropdown title={getUser().name} id='username'>
+              {['admin', 'manager'].includes(getUser().role) && (
+                <Nav.Link>
+                  <i className='fas fa-plus-square'></i>
+                  &nbsp;&nbsp;Nova Tarefa
+                </Nav.Link>
+              )}
+              <NavDropdown title={<span><i className='fas fa-user'></i>&nbsp;&nbsp;{getUser().name}</span>} id='username'>
                 <NavDropdown.Item onClick={logoutHandler}>
                   Sair
                 </NavDropdown.Item>
