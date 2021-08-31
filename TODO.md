@@ -1,5 +1,6 @@
-- [ ]  Tasks backend
-- [ ]  Tasks frontend manager
-- [ ]  Tasks frontend common user
-- [ ]  Leave the readme in english
+- [x]  Tasks backend
+- [x]  Tasks frontend common user
+- [ ]  Add new task component
+- [ ]  Filter tasks by status
 - [ ]  Report
+- [ ]  Leave the readme in english
