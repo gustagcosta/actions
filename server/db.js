@@ -20,7 +20,6 @@ const production = {
     ssl: { rejectUnauthorized: false },
   },
 };
-console.log(process.env.ENV === 'development');
 
 export default knex(
   process.env.ENV === 'development' ? development : production
