@@ -3,4 +3,4 @@
 - [ ]  Add new task component
 - [ ]  Filter tasks by status
 - [ ]  Report
-- [ ]  Leave the readme in english
+- [ ]  Write readme
